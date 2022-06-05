@@ -77,9 +77,9 @@ void writeFemales(profile* femaleList, FILE* output);
 						  file reading function and than goes to open	*
 						  menu											*
 *************************************************************************/
-void main()
+int main()
 {
-	int mChoise, size = 0, index = 0;
+	int size = 0;
 	int flag = true;
 	FILE* fp = fopen("input.txt", "r");	//opens file
 	if (fp == NULL) {
@@ -99,7 +99,7 @@ void main()
 	}
 	fclose(fp);	//close file
 	missionChoise(&maleList, &femaleList, &size); //1st menu
-	return;
+	return 0;
 }
 
 /************************************************************************
@@ -600,7 +600,6 @@ profile* insertNodeToTree(profile* femaleList, profile* node)
 *************************************************************************/
 void logIn(int flag, int* size, profile*** maleList, profile** femaleList)
 {
-	char maleOrFemale;
 	profile* tmpUser; //tmp pointer for potential user
 	char buffer[16];
 	printf("Please enter your username:\n");
@@ -681,7 +680,7 @@ profile* femaleSearch(char userName[], profile* femaleList)
 	{
 		return femaleList;
 	}
-	femaleSearch(userName, femaleList->next); //recurs till the end
+	return femaleSearch(userName, femaleList->next); //recurs till the end
 }
 
 /************************************************************************
@@ -703,7 +702,6 @@ void Register(profile*** maleList, profile** femaleList, int* size)
 	char buffer[descriptionSize] = { 0 }, dummy;
 	int check, index;
 	profile* user = (profile*)malloc(sizeof(profile)); //creates tmp user
-	profile* tmpUser;
 	if (user == NULL)
 	{
 		free(user);
@@ -951,7 +949,7 @@ void mainMenu(profile* user, profile*** maleList, profile** femaleList, int* siz
 
 void findAMatch(profile* user, profile** maleList, profile* femaleList, int size)
 {
-	int minAge, maxAge, found;
+	int minAge, maxAge;
 	printf("Please choose ages range:\n");
 	scanf("%d %d", &minAge, &maxAge); //reads for min and max ages
 	if (user->gender == 'M')
@@ -1050,7 +1048,7 @@ int hobbiesCheck(profile* user, profile* potentialMate)
 
 void findAMan(profile* user, profile** maleList, int minAge, int maxAge, int size)
 {
-	int counter = 0, index, hobbiesGood;
+	int index, hobbiesGood;
 
 	for (index = 0; index < size; index++)
 	{
@@ -1161,7 +1159,6 @@ void arrPlaceChanger(profile** maleArr, int index, int size)
 
 profile* delFromList(profile* user, profile* femaleList)
 {
-	int index;
 	profile* tmpPtr;
 	if (femaleList == NULL) //if reached end list
 	{
@@ -1290,7 +1287,7 @@ void writeFemales(profile* femaleList, FILE* output)
 
 void writeUser(profile* user, FILE* output)
 {
-	char tmpHob, dummy;
+	char tmpHob;
 	int index, letCount = 1, bitCheck, counter = 0;
 	fputs(user->ID, output); //writes ID
 	fputc(';', output); //puts demilter
@@ -1347,7 +1344,6 @@ void writeUser(profile* user, FILE* output)
 
 void deleteArr(profile** maleList, int* size)
 {
-	int index;
 	if (maleList == NULL) //if there is no array
 	{
 		return;
